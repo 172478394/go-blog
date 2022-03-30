@@ -44,6 +44,12 @@ func (c *ArticleController) List() {
 	qs = qs.Filter("User__Name__isnull", false)
 	qs = qs.Filter("Category__Name__isnull", false)
 
+	search := c.GetString("s")
+	if search != "" {
+		qs = qs.Filter("title__icontains", search)
+		c.Data["s"] = search
+	}
+
 	if categoryId != 0 {
 
 		category := new(admin.Category)
@@ -215,6 +221,8 @@ func (c *ArticleController) Detail() {
 
 	if viewType == "single" {
 		c.TplName = "home/" + c.Template + "/doc.html"
+	} else if viewType == "ms" {
+		c.TplName = "home/" + c.Template + "/ms.html"
 	} else {
 		c.TplName = "home/" + c.Template + "/detail.html"
 	}

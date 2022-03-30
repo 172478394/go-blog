@@ -1,21 +1,33 @@
 <div id="sideBarMain">
-    <div>
+    <!-- <div>
         <iframe src="https://ghbtns.com/github-btn.html?user=1920853199&repo=go-blog&type=star&size=large&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
         <iframe src="https://ghbtns.com/github-btn.html?user=1920853199&repo=go-blog&type=fork&size=large&count=true" frameborder="0" scrolling="0" width="160px" height="30px"></iframe>
+    </div> -->
+    <div id="sidebar_search" class="sidebar-block">
+        <h3 class="catListTitle diyBg">搜索</h3>
+        <form role="search" method="get" class="search-form" action="list.html">
+            <label>
+                <span class="screen-reader-text">Search for:</span>
+                <input type="search" class="search-field" placeholder="Search &hellip;" value="" name="s">
+            </label>
+            <button type="submit" class="search-submit">
+                提交
+            </button>
+        </form>
     </div>
-    <div id="sidebar_news" class="newsItem"><!--done-->
+    <div id="sidebar_news" class="newsItem sidebar-block"><!--done-->
         <h3 class="catListTitle diyBg">站点公告</h3>
-        <div id="blog-news">
-            <div id="profile_block">
+        <div id="blog-news" style="padding: 15px">
+            <div id="news_block">
                 {{$.notice}}
             </div>
         </div>
 
     </div>
 
-    {{/*<div id="sidebar_news" class="newsItem"><!--done-->
+    {{/*<div id="sidebar_profile" class="newsItem"><!--done-->
         <h3 class="catListTitle diyBg">关于我</h3>
-        <div id="blog-news">
+        <div id="blog-profile">
             <div id="profile_block">
                 姓名：
                 <a title="{{$.name}}" href="javascript:;">
@@ -55,26 +67,22 @@
 
     </div>
 
-    <div id="sidebar_tags">
+    <div id="sidebar_tags" class="catListPostArchive sidebar-block">
+        <h3 class="catListTitle diyBg">随笔档案({{$.DateCount}})</h3>
+        <ul>
+            {{range $k,$v := $.DateTimeKey}}
+                <li>
+                    <a title="{{StringReplace $v "-" "年"}}月" href="/list.html?date={{$v}}" rel="">
+                        {{StringReplace $v "-" "年"}}月({{index $.DateTime $v}})
+                    </a>
+                </li>
+            {{end}}
+        </ul>
 
-        <div id="sidebar_tags" class="catListPostArchive sidebar-block">
-            <h3 class="catListTitle diyBg">随笔档案({{$.DateCount}})</h3>
-            <ul>
-                {{range $k,$v := $.DateTimeKey}}
-                    <li>
-                        <a title="{{StringReplace $v "-" "年"}}月" href="/list.html?date={{$v}}" rel="">
-                            {{StringReplace $v "-" "年"}}月({{index $.DateTime $v}})
-                        </a>
-                    </li>
-                {{end}}
-            </ul>
-
-
-        </div>
 
     </div>
 
-    <div id="sidebar_topviewedposts" class="sidebar-block">
+    <div id="sidebar_topViewedPosts" class="sidebar-block">
         <div class="catListView">
             <h3 class="catListTitle diyBg">阅读排行榜</h3>
             <div id="TopViewPostsBlock">
@@ -92,7 +100,7 @@
     </div><div id="sidebar_review" class="sidebar-block">
         <div class="catListView">
             <h3 class="catListTitle diyBg">最新评论({{$.ReviewCount}})</h3>
-            <div id="TopViewPostsBlock">
+            <div id="ReviewBlock">
                 <ul style="word-break:break-all">
                     {{range $k,$v := $.Review}}
                         <li>
@@ -106,3 +114,7 @@
         </div>
     </div>
 </div>
+
+<style>
+    .search-form{display:block;position:relative;width:100%;margin:0;padding:0;overflow:hidden}.search-form .screen-reader-text{display:none}.search-form .search-field{display:inline-block;margin:0;width:100%;padding:.7em 45px .7em .7em;background:#fff;border:1px solid #ddd;font-size:1em;color:#333;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box;-webkit-appearance:none}.search-form .search-submit{position:absolute;top:0;right:0;border:none;background:transparent;padding:.8em .7em 0 0;cursor:pointer}.search-form .search-submit .genericon-search{display:inline-block;width:24px;height:24px;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale;font-size:24px;line-height:1;font-family:'Genericons';text-decoration:inherit;font-weight:400;font-style:normal;vertical-align:text-bottom;color:#777;content:'\f400'}.search-form .search-submit:hover .genericon-search{color:#333}
+</style>

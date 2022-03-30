@@ -67,28 +67,28 @@
             <div class="forFlow">
 
                 <!--done-->
-                {{range $key ,$vlaue := $.Data}}
+                {{range $key ,$value := $.Data}}
                 <div class="day">
                     <div class="dayTitle diyBg">
-                        <a href="/list.html?date={{dateformat $vlaue.Created "2006-01-02"}}">{{$vlaue.Created}}</a>
+                        <a href="/list.html?date={{dateformat $value.Created "2006-01-02"}}">{{$value.Created}}</a>
                     </div>
                     <div class="postTitle">
-                        <a class="postTitle2" title="{{$vlaue.Title}}" href="/detail/{{$vlaue.Id}}.html">
-                            {{$vlaue.Title}}
+                        <a class="postTitle2" title="{{$value.Title}}" href="/detail/{{$value.Id}}.html{{if eq $value.Category.Id 2}}?type=ms{{end}}">
+                            {{$value.Title}}
                         </a>
                     </div>
                     <div class="postCon">
                         <div class="c_b_p_desc">
-                            摘要：{{$vlaue.Remark}}
-                            <a title="{{$vlaue.Title}}" href="/detail/{{$vlaue.Id}}.html" class="c_b_p_desc_readmore">阅读全文</a>
+                            摘要：{{$value.Remark}}
+                            <a title="{{$value.Title}}" href="/detail/{{$value.Id}}.html{{if eq $value.Category.Id 2}}?type=ms{{end}}" class="c_b_p_desc_readmore">阅读全文</a>
                         </div>
                     </div>
                     <div class="clear"></div>
                     <div class="postDesc">
-                        {{dateformat $vlaue.Created "2006-01-02 15:04:05"}} {{$vlaue.User.Name}} 阅读 ({{$vlaue.Pv}}) 评论 ({{$vlaue.Review}}) 点赞 ({{$vlaue.Like}})
-                        <span style="margin-left: 5px">标签：</span><a href="javascript:;">{{$vlaue.Tag}}</a>
-                        <span style="margin-left: 5px">分类：</span><a href="javascript:;">{{$vlaue.Category.Name}}</a>
-                        {{if eq $vlaue.Recommend 1}}
+                        {{dateformat $value.Created "2006-01-02 15:04:05"}} {{$value.User.Name}} 阅读 ({{$value.Pv}}) 评论 ({{$value.Review}}) 点赞 ({{$value.Like}})
+                        <span style="margin-left: 5px">标签：</span><a href="javascript:;">{{$value.Tag}}</a>
+                        <span style="margin-left: 5px">分类：</span><a href="javascript:;">{{$value.Category.Name}}</a>
+                        {{if eq $value.Recommend 1}}
                         <span style="margin-left: 5px"><a href="javascript:;" style="color: #FF5722">顶置</a></span>
                         {{end}}
                     </div>
@@ -100,10 +100,10 @@
                 <div class="topicListFooter">
                     <div id="nav_next_page">
                         {{if gt .Paginator.CurrentPage 1}}
-                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
+                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
                         {{end}}
                         {{if lt .Paginator.CurrentPage .Paginator.TotalPage}}
-                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
+                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
                         {{end}}
                         {{if gt .Paginator.TotalPage 0}}
                             <span class="current">第 {{.Paginator.CurrentPage}} 页 </span>
