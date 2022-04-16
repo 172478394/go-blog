@@ -110,6 +110,8 @@
                     imageUpload    : true,
                     imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
                     imageUploadURL : "/uploads.html",
+                    htmlDecode : true,
+                    // htmlDecode: "style,script,iframe,sub,sup|on*",
                     onload : function() {
                         this.setMarkdown({{.Data.Desc}});
                     }
