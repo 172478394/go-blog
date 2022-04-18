@@ -100,10 +100,10 @@
                 <div class="topicListFooter">
                     <div id="nav_next_page">
                         {{if gt .Paginator.CurrentPage 1}}
-                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
+                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
                         {{end}}
                         {{if lt .Paginator.CurrentPage .Paginator.TotalPage}}
-                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
+                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
                         {{end}}
                         {{if gt .Paginator.TotalPage 0}}
                             <span class="current">第 {{.Paginator.CurrentPage}} 页 </span>

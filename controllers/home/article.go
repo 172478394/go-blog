@@ -52,6 +52,11 @@ func (c *ArticleController) List() {
 		qs = qs.Filter("title__icontains", search)
 		c.Data["s"] = search
 	}
+	author := c.GetString("a")
+	if author != "" {
+		qs = qs.Filter("singer__icontains", search)
+		c.Data["a"] = search
+	}
 
 	if categoryId != 0 {
 

@@ -32,6 +32,9 @@ type Article struct {
 	Cover     string
 	User      *User     `orm:"rel(fk)"`
 	Category  *Category `orm:"rel(one)"`
+	Keywords  string
+	Singer    string
+	No        string
 }
 
 type Other struct {
