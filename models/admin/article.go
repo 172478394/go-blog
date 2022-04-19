@@ -35,6 +35,7 @@ type Article struct {
 	Keywords  string
 	Singer    string
 	No        string
+	Uuid      string
 }
 
 type Other struct {

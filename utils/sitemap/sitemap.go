@@ -50,13 +50,13 @@ func write(url map[string]bool, path string) {
 	uniqurl := make(map[string]bool, len(url))
 
 	for k := range url {
-		k2 := strings.Replace(k, "http://127.0.0.1:8080", "https://zeropiano.com", 1)
 		index := strings.Index(k, "?")
 
 		if index != -1 {
 			k = k[:index]
 		}
 
+		k2 := strings.Replace(k, "http://127.0.0.1:8080", "https://zeropiano.com", 1)
 		if _, ok := uniqurl[k2]; !ok {
 			uniqurl[k2] = true
 		}

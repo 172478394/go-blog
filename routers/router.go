@@ -90,6 +90,7 @@ func init() {
 	beego.Router("/list.html", &home.ArticleController{}, "get:List")
 	// 前台详情
 	beego.Router("/detail/:id([0-9]+).html", &home.ArticleController{}, "get:Detail")
+	beego.Router("/playback/:id([0-9]+).html", &home.ArticleController{}, "get:Playback")
 	// 前台统计文章PV
 	beego.Router("/pv/:id([0-9]+).html", &home.ArticleController{}, "get:Pv")
 	// 前台留言列表

@@ -2,6 +2,7 @@ package home
 
 import (
 	"encoding/json"
+	"fmt"
 	"go-blog/models/admin"
 	"go-blog/utils"
 	"html/template"
@@ -229,12 +230,39 @@ func (c *ArticleController) Detail() {
 
 	if viewType == "single" {
 		c.TplName = "home/" + c.Template + "/doc.html"
-	} else if viewType == "ms" {
+	} else if viewType == "ms" || articles[0].Category.Id == 2 {
 		c.TplName = "home/" + c.Template + "/ms.html"
 	} else {
 		c.TplName = "home/" + c.Template + "/detail.html"
 	}
 	//c.TplName = "home/nihongdengxia/review.html"
+}
+
+// 播放
+func (c *ArticleController) Playback() {
+	id := c.Ctx.Input.Param(":id")
+	// 基础数据
+	o := orm.NewOrm()
+	article := new(admin.Article)
+	var articles []*admin.Article
+	qs := o.QueryTable(article)
+	err := qs.Filter("id", id).RelatedSel().One(&articles)
+	if err != nil {
+		c.Abort("404")
+	}
+
+	articles[0].Uuid = fmt.Sprintf("/static/pianomusic/%s/%s.mxl", c.getPath(articles[0].Id), articles[0].Uuid)
+
+	c.Data["Data"] = &articles[0]
+
+	c.Log("playback")
+	c.Data["index"] = &articles[0].Title
+
+	c.TplName = "home/" + c.Template + "/playback.html"
+}
+
+func (c *ArticleController) getPath(id int) string {
+	return fmt.Sprintf("%03d/%07d", (id / 10000) + 1, id)
 }
 
 // 统计访问量
