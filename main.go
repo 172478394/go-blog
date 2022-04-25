@@ -5,6 +5,7 @@ import (
 	_ "go-blog/routers"
 	db "go-blog/service/databsae"
 	"go-blog/utils"
+	"go-blog/utils/article"
 	"go-blog/utils/sitemap"
 
 	"github.com/astaxie/beego"
@@ -43,7 +44,9 @@ func init() {
 		})
 		c.Start()
 	}()
-
+	go func() {
+		article.GetMidi()
+	}()
 }
 
 func main() {

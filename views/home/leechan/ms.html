@@ -109,7 +109,7 @@
                                             <li>收藏次数：<span>{{$.Data.Like}}</span></li>
                                             <li>点击次数：{{$.Data.Pv}}</li>
                                             <li>更新时间：{{dateformat $.Data.Updated "2006-01-02"}}</li>
-                                            <li><a href="/playback/{{$.Data.Id}}.html" target="_blank"><button class="layui-btn layui-btn-xs">在线琴谱下载</button></a></li>
+                                            {{if ne $.Data.Uuid ""}}<li><a href="/playback/{{$.Data.Id}}.html" target="_blank"><button class="layui-btn layui-btn-xs">在线琴谱下载</button></a></li>{{end}}
                                         </ul>
                                     </div>
                                 </div>
