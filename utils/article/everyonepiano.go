@@ -175,7 +175,7 @@ func GetMidi() {
                 musicXMLPath := fmt.Sprintf("%s/%s.musicxml", dir, artUuid)
                 mxlPath := fmt.Sprintf("%s/%s.mxl", dir, artUuid)
                 cmd1 := fmt.Sprintf("export QT_QPA_PLATFORM=offscreen;mscore %s -o %s", path, musicXMLPath)
-                cmd := exec.Command(cmd1)
+                cmd := exec.Command("bash","-c", cmd1)
                 err = cmd.Run()
                 if err != nil {
                     log.Fatal(err)
@@ -185,7 +185,7 @@ func GetMidi() {
                 fixMusicXML(musicXMLPath, article.Title, article.Singer)
 
                 cmd2 := fmt.Sprintf("export QT_QPA_PLATFORM=offscreen;mscore %s -o %s", musicXMLPath, mxlPath)
-                cmd = exec.Command(cmd2)
+                cmd = exec.Command("bash","-c", cmd2)
                 err = cmd.Run()
                 if err != nil {
                     log.Fatal(err)
