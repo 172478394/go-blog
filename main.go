@@ -1,13 +1,6 @@
 package main
 
 import (
-	errorControl "go-blog/controllers/error"
-	_ "go-blog/routers"
-	db "go-blog/service/databsae"
-	"go-blog/utils"
-	"go-blog/utils/article"
-	"go-blog/utils/sitemap"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/config"
 	"github.com/astaxie/beego/orm"
@@ -15,6 +8,11 @@ import (
 	_ "github.com/lib/pq"
 	"github.com/robfig/cron/v3"
 	"github.com/sirupsen/logrus"
+	errorControl "go-blog/controllers/error"
+	_ "go-blog/routers"
+	db "go-blog/service/databsae"
+	"go-blog/utils"
+	"go-blog/utils/article"
 )
 
 func init() {
@@ -40,12 +38,13 @@ func init() {
 		//*/1 0 * * *
 		// 0 0 * * *
 		c.AddFunc("0 2 * * *", func() {
-			sitemap.Sitemap("./", conf.String("url"))
+			//sitemap.Sitemap("./", conf.String("url"))
+			getMidi, _ := conf.Bool("midi")
+			if getMidi {
+				article.GetMidi()
+			}
 		})
 		c.Start()
-	}()
-	go func() {
-		article.GetMidi()
 	}()
 }
 

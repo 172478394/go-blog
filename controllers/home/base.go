@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"go-blog/models/admin"
 	"go-blog/utils"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -238,6 +239,14 @@ func (c *BaseController) Keywords() {
 
 	var tag []*admin.Article
 
+	// RandomInteger := rand.Int()  // generates a random integer
+	// RandomIntegerWithinRange := rand.Intn(max-min) + min    // range is min to max
+	// RandomFloatingNumber := rand.Float64() // generates a random floating point number
+	ids := make([]interface{}, 0, 10)
+	for i := 0; i < 10; i++ {
+		ids = append(ids, rand.Intn(10000-1) + 1)
+	}
+	qs = qs.Filter("id__in", ids...)
 	qs = qs.Filter("status", 1)
 	qs = qs.Filter("User__Name__isnull", false)
 	qs = qs.Filter("Category__Name__isnull", false)

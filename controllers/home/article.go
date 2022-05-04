@@ -35,9 +35,9 @@ func (c *ArticleController) List() {
 	//limit, _ := beego.AppConfig.Int64("limit") // 一页的数量
 	page, _ := c.GetInt64("page", 1)  // 页数
 	offset := (page - 1) * limit      // 偏移量
-	categoryId, _ := c.GetInt("c", 0) // 页数
+	categoryId, _ := c.GetInt("c", 0)
 	if categoryId == 0 {
-		c.Abort("404")
+		//c.Abort("404")
 	}
 	//o := orm.NewOrm()
 	article := new(admin.Article)

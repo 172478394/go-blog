@@ -1,16 +1,17 @@
 package article
 
 import (
+    "context"
     "fmt"
     "github.com/PuerkitoBio/goquery"
     "github.com/astaxie/beego/orm"
     "github.com/beevik/etree"
     "github.com/gocolly/colly"
+    "github.com/gocolly/colly/extensions"
     "github.com/google/uuid"
     "go-blog/models/admin"
     "io"
     "log"
-    "net"
     "net/http"
     "os"
     "os/exec"
@@ -23,22 +24,25 @@ func GetMidi() {
     baseUrl := "https://www.everyonepiano.cn"
     url := "https://www.everyonepiano.cn/Music.html"
     c := colly.NewCollector()
-    c.WithTransport(&http.Transport{
-        Proxy: http.ProxyFromEnvironment,
-        DialContext: (&net.Dialer{
-            Timeout:   30 * time.Second,
-            KeepAlive: 30 * time.Second,
-        }).DialContext,
-        MaxIdleConns:          100,
-        IdleConnTimeout:       90 * time.Second,
-        TLSHandshakeTimeout:   10 * time.Second,
-        ExpectContinueTimeout: 1 * time.Second,
-    })
+    //c.WithTransport(&http.Transport{
+    //    Proxy: http.ProxyFromEnvironment,
+    //    DialContext: (&net.Dialer{
+    //        Timeout:   30 * time.Second,
+    //        KeepAlive: 30 * time.Second,
+    //    }).DialContext,
+    //    MaxIdleConns:          100,
+    //    IdleConnTimeout:       90 * time.Second,
+    //    TLSHandshakeTimeout:   10 * time.Second,
+    //    ExpectContinueTimeout: 1 * time.Second,
+    //})
     c.Limit(&colly.LimitRule{
         DomainGlob:  "*everyonepiano.*",
         Parallelism: 1,
-        RandomDelay: 1 * time.Second,
+        //Delay: 1 * time.Second,
+        //RandomDelay: 5 * time.Second,
     })
+    extensions.RandomUserAgent(c)
+    extensions.Referer(c)
     err := c.Post("https://www.everyonepiano.cn/Login/index",
         map[string]string{
             "username": "gydcd",
@@ -54,11 +58,11 @@ func GetMidi() {
     if err != nil {
         log.Fatal(err)
     }
-    visit := true
+    //visit := true
     c.OnHTML(".MusicIndexBox", func(e *colly.HTMLElement) {
-        if !visit {
-            return
-        }
+        //if !visit {
+        //    return
+        //}
         no := e.DOM.Find(".MIMusicNO").Text() // 0014129
         // 是否存在
         o := orm.NewOrm()
@@ -74,12 +78,13 @@ func GetMidi() {
                 detail = baseUrl + detail
             }
             c.Visit(detail)
-            visit = false
+            //visit = false
         }
     })
 
     c.OnHTML("html", func(e *colly.HTMLElement) {
         if strings.HasPrefix(e.Request.URL.Path, "/Music-") {
+            fmt.Println(time.Now().String(), ", detail success:", e.Request.URL.Path)
             title := strings.Replace(e.DOM.Find("title").Text(), "【谱】", "", 1)
             tags := strings.Split(title, "-")
             no, _ := strconv.ParseUint(strings.Split(e.Request.URL.Path, "-")[1], 10, 0)
@@ -111,6 +116,8 @@ func GetMidi() {
                 }
                 if name, _ := s.Attr("name"); name == "keywords" {
                     keywords, _ := s.Attr("content")
+                    keywords = strings.ReplaceAll(keywords, "EOP", "零度钢琴")
+                    keywords = strings.ReplaceAll(keywords, "魔鬼训练", "训练")
                     article.Keywords = keywords
                 }
             })
@@ -119,7 +126,8 @@ func GetMidi() {
                 coverUrl = baseUrl + coverUrl
             }
             midiUrl := baseUrl + strings.Replace(e.Request.URL.Path, "/Music-", "/Midi-", 1)
-            if id, _err := o.Insert(&article); _err == nil {
+            id, _err := o.Insert(&article)
+            if  _err == nil {
                 cover := fmt.Sprintf("/static/pianomusic/%s/%07d-small.jpg", getPath(id), id)
                 dir := fmt.Sprintf("./static/pianomusic/%s", getPath(id))
                 DownloadFile(dir, "."+cover, coverUrl)
@@ -129,6 +137,9 @@ func GetMidi() {
                     "cover": cover,
                 })
                 c.Visit(midiUrl)
+            } else {
+                fmt.Println(_err)
+                panic(_err)
             }
         }
         if strings.HasPrefix(e.Request.URL.Path, "/Midi-") {
@@ -165,8 +176,8 @@ func GetMidi() {
                 dir := fmt.Sprintf("./static/pianomusic/%s", getPath(int64(article.Id)))
                 err = r.Save(path)
                 if err != nil {
-                    log.Println("dowload video error", r.Request.URL.Path)
-                    log.Println(err)
+                    fmt.Println("dowload video error", r.Request.URL.Path)
+                    fmt.Println(err)
                     return
                 }
 
@@ -178,17 +189,22 @@ func GetMidi() {
                 cmd := exec.Command("bash","-c", cmd1)
                 err = cmd.Run()
                 if err != nil {
-                    log.Fatal(err)
+                    fmt.Println(err)
                     return
                 }
 
                 fixMusicXML(musicXMLPath, article.Title, article.Singer)
 
                 cmd2 := fmt.Sprintf("export QT_QPA_PLATFORM=offscreen;mscore %s -o %s", musicXMLPath, mxlPath)
-                cmd = exec.Command("bash","-c", cmd2)
+                ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+                defer cancel()
+                cmd = exec.CommandContext(ctx, "bash","-c", cmd2)
                 err = cmd.Run()
-                if err != nil {
-                    log.Fatal(err)
+                if err != nil || ctx.Err() == context.DeadlineExceeded {
+                    fmt.Println("context DeadlineExceeded, err:", err, artUuid)
+                    cmd2 = fmt.Sprintf("export QT_QPA_PLATFORM=offscreen;mscore %s -o %s", path, mxlPath)
+                    cmd = exec.Command( "bash","-c", cmd2)
+                    err = cmd.Run()
                     return
                 }
             } else {
@@ -197,6 +213,11 @@ func GetMidi() {
         }
     })
 
+    // https://www.everyonepiano.cn/Music.html?&p=1413&canshu=cn_edittime&word=&author=&jianpu=&paixu=desc&username=
+    for i := 2; i >= 2; i-- {
+       visitUrl := fmt.Sprintf("https://www.everyonepiano.cn/Music.html?&p=%d&canshu=cn_edittime&word=&author=&jianpu=&paixu=desc&username=", i)
+       c.Visit(visitUrl)
+    }
     c.Visit(url)
 }
 
