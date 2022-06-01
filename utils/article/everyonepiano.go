@@ -87,7 +87,7 @@ func GetMidi() {
             fmt.Println(time.Now().String(), ", detail success:", e.Request.URL.Path)
             title := strings.Replace(e.DOM.Find("title").Text(), "【谱】", "", 1)
             tags := strings.Split(title, "-")
-            no, _ := strconv.ParseUint(strings.Split(e.Request.URL.Path, "-")[1], 10, 0)
+            no, _ := strconv.ParseUint(strings.Replace(strings.Split(e.Request.URL.Path, "-")[1], ".html", "", 1), 10, 0)
             o := orm.NewOrm()
             article := admin.Article{
                 Title:    title,
