@@ -37,6 +37,7 @@ func (c *ArticleController) List() {
 	offset := (page - 1) * limit      // 偏移量
 	categoryId, _ := c.GetInt("c", 0)
 	if categoryId == 0 {
+		categoryId = 2
 		//c.Abort("404")
 	}
 	//o := orm.NewOrm()
