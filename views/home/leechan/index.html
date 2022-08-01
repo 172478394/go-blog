@@ -7,9 +7,9 @@
     <title>{{$.index}} - {{$.title}}</title>
     <meta name="keywords" content="{{$.keyword}}" />
     <meta name="description" content="{{$.description}}" />
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/172478394/go-blog/static/css/slidepage.css">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog/static/css/css-reset.css">
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/172478394/go-blog/static/css/index.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/slidepage.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/css-reset.css">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/index.css">
 
 </head>
 <style>
@@ -45,7 +45,7 @@
         </div>
     </div>
 </div>
-<script src="https://cdn.jsdelivr.net/gh/172478394/go-blog/static/js/jquery-2.2.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/js/jquery-2.2.0.min.js"></script>
 <script>
     $(function () {
         $.ajax({
@@ -63,7 +63,7 @@
         for (i = 0 ; i<arr.length;i++){
             number += parseInt(arr[i]);
         }
-        $('.banner5').css("background","url(https://cdn.jsdelivr.net/gh/172478394/go-blog/static/img/"+number%13+".jpg) no-repeat");
+        $('.banner5').css("background","url(https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/img/"+number%13+".jpg) no-repeat");
 	$('.banner5').css("background-size","cover");
     }
 </script>
