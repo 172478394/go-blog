@@ -198,6 +198,20 @@ func (c *ArticleController) Detail() {
 	/*c.Data["json"]= &articles
 	c.ServeJSON()
 	c.StopRun()*/
+	keywordsArr := strings.Split(articles[0].Keywords, ",")
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "歌词") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "歌词")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "五线谱") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "五线谱")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "钢琴谱") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "钢琴谱")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, articles[0].Singer) {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "-" + articles[0].Singer)
+	}
+	articles[0].Keywords = strings.Join(keywordsArr, ",")
 
 	c.Data["Data"] = &articles[0]
 
@@ -253,6 +267,22 @@ func (c *ArticleController) Playback() {
 	}
 
 	articles[0].Uuid = fmt.Sprintf("/static/pianomusic/%s/%s.mxl", c.getPath(articles[0].Id), articles[0].Uuid)
+
+	keywordsArr := strings.Split(articles[0].Keywords, ",")
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "歌词") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "歌词下载")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "五线谱") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "五线谱下载")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, "钢琴谱") {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "钢琴谱下载")
+	}
+	if articles[0].Category.Id == 2 && !strings.Contains(articles[0].Keywords, articles[0].Singer) {
+		keywordsArr = append(keywordsArr, keywordsArr[0] + "-" + articles[0].Singer)
+	}
+	keywordsArr = append(keywordsArr, keywordsArr[0] + "-在线练琴")
+	articles[0].Keywords = strings.Join(keywordsArr, ",")
 
 	c.Data["Data"] = &articles[0]
 
