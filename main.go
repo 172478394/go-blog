@@ -30,6 +30,7 @@ func init() {
 	beego.AddFuncMap("IndexAddOne", utils.IndexAddOne)
 	beego.AddFuncMap("IndexDecrOne", utils.IndexDecrOne)
 	beego.AddFuncMap("StringReplace", utils.StringReplace)
+	beego.AddFuncMap("StringSplit", utils.StringSplit)
 	beego.AddFuncMap("TimeStampToTime", utils.TimeStampToTime)
 
 	// 每天0点定时更新站点地图

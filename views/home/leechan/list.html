@@ -86,8 +86,8 @@
                     <div class="clear"></div>
                     <div class="postDesc">
                         {{dateformat $value.Created "2006-01-02 15:04:05"}} {{$value.User.Name}} 阅读 ({{$value.Pv}}) 评论 ({{$value.Review}}) 点赞 ({{$value.Like}})
-                        <span style="margin-left: 5px">标签：</span><a href="javascript:;">{{$value.Tag}}</a>
-                        <span style="margin-left: 5px">分类：</span><a href="javascript:;">{{$value.Category.Name}}</a>
+                        <span style="margin-left: 5px">标签：</span>{{range $k ,$v := $value.Tag | StringSplit}}<a href="{{urlfor "home.ArticleController.List"}}?tag={{$v}}">{{$v}}</a>, {{end}}<a href="{{urlfor "home.ArticleController.List"}}?a={{$value.Singer}}">{{$value.Singer}}</a>
+                        <span style="margin-left: 5px">分类：</span><a href="{{urlfor "home.ArticleController.List"}}?c={{$value.Category.Id}}">{{$value.Category.Name}}</a>
                         {{if eq $value.Recommend 1}}
                         <span style="margin-left: 5px"><a href="javascript:;" style="color: #FF5722">顶置</a></span>
                         {{end}}

@@ -28,6 +28,10 @@ func StringReplace(str, old, new string) string {
 	return strings.Replace(str, old, new, -1)
 }
 
+func StringSplit(str string) []string {
+	return strings.Split(str, ",")
+}
+
 func StringToTime(date interface{}) time.Time {
 	timeLayout := "2006-01-02 15:04:05"
 	loc, _ := time.LoadLocation("Local")

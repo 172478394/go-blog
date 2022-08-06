@@ -56,7 +56,7 @@ func (c *ArticleController) List() {
 	}
 	author := c.GetString("a")
 	if author != "" {
-		qs = qs.Filter("singer__icontains", search)
+		qs = qs.Filter("singer__icontains", author)
 		c.Data["a"] = search
 	}
 
