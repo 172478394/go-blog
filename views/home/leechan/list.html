@@ -7,9 +7,9 @@
 
     <meta http-equiv="Cache-Control" content="no-transform" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>{{$.index}} 第 {{.Paginator.CurrentPage}} 页 - {{$.title}}</title>
-    <meta name="description" content="{{$.description}}"/>
-    <meta name="keywords" content="{{$.keyword}}">
+    <title>{{$.index}} - 第 {{.Paginator.CurrentPage}} 页{{if $.keywordsTag}} - {{$.keywordsTag}}{{end}} - {{$.title}}</title>
+    <meta name="description" content="{{$.description}}{{if $.keywordsTag}} - {{$.keywordsTag}}{{end}}"/>
+    <meta name="keywords" content="{{if $.keywordsTag}}{{$.keywordsTag}},{{$.keywordsTag}}钢琴谱,{{end}}{{$.keyword}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/blog-common.min.css" />
     <link id="MainCss" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/bundle-codinglife.min.css" />
     <link id="mobile-style" media="only screen and (max-width: 767px)" type="text/css" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/bundle-codinglife-mobile.min.css" />
@@ -100,10 +100,10 @@
                 <div class="topicListFooter">
                     <div id="nav_next_page">
                         {{if gt .Paginator.CurrentPage 1}}
-                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
+                            <a class="prev" href="{{urlfor "home.ArticleController.List"}}?page={{IndexDecrOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.keywordsTag}}&tag={{$.keywordsTag}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">上一页</a>
                         {{end}}
                         {{if lt .Paginator.CurrentPage .Paginator.TotalPage}}
-                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
+                            <a class="next" href="{{urlfor "home.ArticleController.List"}}?page={{IndexAddOne $.Paginator.CurrentPage}}{{if $.Date}}&date={{$.Date}}{{end}}{{if $.s}}&s={{$.s}}{{end}}{{if $.a}}&a={{$.a}}{{end}}{{if $.keywordsTag}}&tag={{$.keywordsTag}}{{end}}{{if $.CategoryID}}&c={{$.CategoryID}}{{end}}">下一页</a>
                         {{end}}
                         {{if gt .Paginator.TotalPage 0}}
                             <span class="current">第 {{.Paginator.CurrentPage}} 页 </span>
