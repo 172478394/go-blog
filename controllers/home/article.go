@@ -167,6 +167,11 @@ func (c *ArticleController) List() {
         err = o.Read(&categoryKey)
         if err == nil {
             c.Data["index"] = categoryKey.Name
+            if author != "" {
+                c.Data["keyword"] = fmt.Sprintf("%s钢琴谱", author)
+                c.Data["index"] = fmt.Sprintf("%s 免费钢琴乐谱合集", author)
+                c.Data["description"] = fmt.Sprintf("一起学%s钢琴谱，%s热门钢琴谱。从流行歌曲到最受欢迎的古典音乐，让你学会用钢琴弹奏最美妙的歌曲。", author, author)
+            }
         } else {
             c.Data["index"] = "博客列表"
         }

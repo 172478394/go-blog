@@ -7,8 +7,8 @@
 
     <meta http-equiv="Cache-Control" content="no-transform" />
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <title>{{$.index}} - 第 {{.Paginator.CurrentPage}} 页{{if $.keywordsTag}} - {{$.keywordsTag}}{{end}} - {{$.title}}</title>
-    <meta name="description" content="{{$.description}}{{if $.keywordsTag}} - {{$.keywordsTag}}{{end}}"/>
+    <title>{{if $.keywordsTag}}{{$.keywordsTag}} {{end}}{{$.index}} - 第 {{.Paginator.CurrentPage}} 页 - {{$.title}}</title>
+    <meta name="description" content="{{if $.keywordsTag}}{{$.keywordsTag}}热门钢琴谱。{{end}}{{$.description}}"/>
     <meta name="keywords" content="{{if $.keywordsTag}}{{$.keywordsTag}},{{$.keywordsTag}}钢琴谱,{{end}}{{$.keyword}}">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/blog-common.min.css" />
     <link id="MainCss" rel="stylesheet" href="https://cdn.jsdelivr.net/gh/172478394/go-blog@master/static/css/bundle-codinglife.min.css" />
