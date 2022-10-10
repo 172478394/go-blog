@@ -246,7 +246,8 @@ func (c *ArticleController) Detail() {
 
     other.SubjectInfo = strings.Replace(other.SubjectInfo, "\n", "<br>", -1)
     c.Log("detail")
-    c.Data["index"] = &articles[0].Title
+    titleIndex := strings.ReplaceAll(articles[0].Title, "（五线谱、双手简谱、数字谱、Midi、PDF）免费下载", "")
+    c.Data["index"] = &titleIndex
     c.Data["Other"] = other
 
     if viewType == "single" {
@@ -290,10 +291,12 @@ func (c *ArticleController) Playback() {
     keywordsArr = append(keywordsArr, keywordsArr[0]+"-在线练琴")
     articles[0].Keywords = strings.Join(keywordsArr, ",")
 
+    articles[0].Remark = "在线练习并下载" + keywordsArr[0] + "钢琴谱。" + articles[0].Remark
     c.Data["Data"] = &articles[0]
 
     c.Log("playback")
-    c.Data["index"] = &articles[0].Title
+    titleIndex := articles[0].Title + "在线练琴"
+    c.Data["index"] = &titleIndex
 
     c.TplName = "home/" + c.Template + "/playback.html"
 }
